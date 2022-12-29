@@ -16,6 +16,10 @@ class Car {
     this.controls = new Controls();
   }
 
+  update() {
+    this.#move();
+  }
+
   #move() {
     if (this.controls.forward) {
       this.speed += this.acceleration;
@@ -29,11 +33,15 @@ class Car {
     if (this.speed < -this.maxSpeed / 2) {
       this.speed = -this.maxSpeed / 2;
     }
+
     if (this.speed > 0) {
       this.speed -= this.friction;
     }
     if (this.speed < 0) {
       this.speed += this.friction;
+    }
+    if (Math.abs(this.speed) < this.friction) {
+      this.speed = 0;
     }
 
     if (this.speed != 0) {
@@ -50,10 +58,6 @@ class Car {
 
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
-  }
-
-  update() {
-    this.#move();
   }
 
   draw(context) {
